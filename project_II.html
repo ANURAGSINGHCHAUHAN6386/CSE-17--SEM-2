@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Business Travelers</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f4f4;
+        }
+
+        nav{
+            background:#222;
+            color:white;
+            padding:15px;
+            display:flex;
+            justify-content:space-between;
+        }
+
+        nav ul{
+            list-style:none;
+            display:flex;
+        }
+
+        nav ul li{
+            margin-left:20px;
+        }
+
+        .hero{
+            text-align:center;
+            padding:80px 20px;
+            background:white;
+        }
+
+        .hero h1{
+            margin-bottom:15px;
+        }
+
+        button{
+            background:blue;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            margin-top:15px;
+            cursor:pointer;
+        }
+
+        .services{
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:20px;
+            padding:40px;
+        }
+
+        .card{
+            width:250px;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px lightgray;
+            text-align:center;
+        }
+
+        footer{
+            background:#222;
+            color:white;
+            text-align:center;
+            padding:15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>BizTravel</h2>
+
+        <ul>
+            <li>Home</li>
+            <li>Flights</li>
+            <li>Hotels</li>
+            <li>Contact</li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Business Travel Made Easy</h1>
+
+        <p>
+            Book flights, hotels and manage your business trips easily.
+        </p>
+
+        <button onclick="bookNow()">
+            Book Now
+        </button>
+    </section>
+
+    <section class="services">
+
+        <div class="card">
+            <h3>Flight Booking</h3>
+            <p>Search and book flights quickly.</p>
+        </div>
+
+        <div class="card">
+            <h3>Hotel Booking</h3>
+            <p>Reserve hotels for business travel.</p>
+        </div>
+
+        <div class="card">
+            <h3>Expense Tracker</h3>
+            <p>Manage travel expenses efficiently.</p>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 BizTravel. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function bookNow()
+        {
+            alert("Booking Started!");
+        }
+    </script>
+
+</body>
+</html>
