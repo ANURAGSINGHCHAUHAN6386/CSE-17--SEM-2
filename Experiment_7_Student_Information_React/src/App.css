@@ -1,0 +1,48 @@
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial;
+  background: #f2f2f2;
+}
+
+.container {
+  width: 400px;
+  margin: 50px auto;
+  padding: 15px;
+  border: 2px solid black;
+  border-radius: 15px;
+  text-align: center;
+  background: rgb(234, 240, 223);
+}
+
+.container h2 {
+  color: black;
+}
+
+.card {
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 5px -5px gray;
+}
+
+.card h3 {
+  color: black;
+}
+
+.card p {
+  color: #333;
+}
+ 
+
+.Credit{
+   color: #333;
+   text-align: center;
+}
