@@ -1,0 +1,56 @@
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background-color:#eaeded;
+}
+
+.navbar{
+  background:#131921;
+  color:white;
+  padding:15px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.navbar input{
+  flex:1;
+  padding:8px;
+}
+
+.hero{
+  text-align:center;
+  background:white;
+  margin:20px;
+  padding:40px;
+  border-radius:10px;
+}
+
+.products{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  padding:20px;
+}
+
+.card{
+  width:220px;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  text-align:center;
+}
+
+.card button{
+  background:#ffd814;
+  border:none;
+  padding:10px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.card button:hover{
+  background:#f7ca00;
+}
