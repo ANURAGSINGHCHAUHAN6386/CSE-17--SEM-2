@@ -1,0 +1,962 @@
+/* ==========================================================================
+   AEROPULSE INDUSTRIAL AIR POLLUTION CONTROL SYSTEM (APCS)
+   SCADA / DCS Grade Industrial Design System Stylesheet
+   ========================================================================== */
+
+:root {
+  /* Industrial Color Tokens */
+  --apcs-bg-base: #0a0e17;
+  --apcs-bg-panel: #111827;
+  --apcs-bg-card: #162032;
+  --apcs-bg-elevated: #1e293b;
+  --apcs-bg-glass: rgba(22, 32, 50, 0.75);
+
+  --apcs-border: #243248;
+  --apcs-border-glow: rgba(56, 189, 248, 0.25);
+  --apcs-border-active: #38bdf8;
+
+  --apcs-text-bright: #f8fafc;
+  --apcs-text-main: #e2e8f0;
+  --apcs-text-muted: #94a3b8;
+  --apcs-text-dim: #64748b;
+
+  /* Industrial Telemetry Accents */
+  --apcs-cyan: #06b6d4;
+  --apcs-cyan-glow: rgba(6, 182, 212, 0.3);
+  --apcs-blue: #3b82f6;
+  --apcs-emerald: #10b981;
+  --apcs-emerald-glow: rgba(16, 185, 129, 0.3);
+  --apcs-amber: #f59e0b;
+  --apcs-amber-glow: rgba(245, 158, 11, 0.3);
+  --apcs-orange: #f97316;
+  --apcs-red: #ef4444;
+  --apcs-red-glow: rgba(239, 68, 68, 0.35);
+  --apcs-purple: #8b5cf6;
+
+  /* Radius & Shadows */
+  --apcs-radius-sm: 6px;
+  --apcs-radius-md: 12px;
+  --apcs-radius-lg: 18px;
+  --apcs-radius-full: 9999px;
+
+  --apcs-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --apcs-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --apcs-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --apcs-shadow-glow: 0 0 20px rgba(6, 182, 212, 0.2);
+
+  --apcs-font-mono: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] {
+  --apcs-bg-base: #f1f5f9;
+  --apcs-bg-panel: #ffffff;
+  --apcs-bg-card: #f8fafc;
+  --apcs-bg-elevated: #ffffff;
+  --apcs-bg-glass: rgba(255, 255, 255, 0.85);
+
+  --apcs-border: #cbd5e1;
+  --apcs-border-glow: rgba(2, 132, 199, 0.25);
+  --apcs-border-active: #0284c7;
+
+  --apcs-text-bright: #0f172a;
+  --apcs-text-main: #1e293b;
+  --apcs-text-muted: #475569;
+  --apcs-text-dim: #64748b;
+
+  --apcs-shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.05);
+  --apcs-shadow-md: 0 8px 18px rgba(15, 23, 42, 0.08);
+  --apcs-shadow-lg: 0 16px 32px rgba(15, 23, 42, 0.12);
+  --apcs-shadow-glow: 0 0 15px rgba(2, 132, 199, 0.15);
+}
+
+/* Base Layout Wrapper */
+.apcs-container {
+  min-height: 100vh;
+  background-color: var(--apcs-bg-base);
+  color: var(--apcs-text-main);
+  font-family: var(--font-body, system-ui, -apple-system, sans-serif);
+  padding: 1.25rem 1.5rem 3rem 1.5rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  box-sizing: border-box;
+}
+
+/* Header & SCADA Status Bar */
+.apcs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding: 1.25rem 1.75rem;
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-lg);
+  box-shadow: var(--apcs-shadow-md);
+  margin-bottom: 1.5rem;
+}
+
+.apcs-branding {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.apcs-brand-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--apcs-radius-md);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+  border: 1px solid var(--apcs-cyan);
+  color: var(--apcs-cyan);
+  box-shadow: var(--apcs-shadow-glow);
+}
+
+.apcs-brand-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--apcs-text-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.apcs-brand-subtitle {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.825rem;
+  color: var(--apcs-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.apcs-system-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--apcs-radius-full);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Navigation Tabs */
+.apcs-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--apcs-bg-card);
+  padding: 0.35rem;
+  border-radius: var(--apcs-radius-md);
+  border: 1px solid var(--apcs-border);
+  overflow-x: auto;
+}
+
+.apcs-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--apcs-text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--apcs-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.apcs-tab-btn:hover {
+  color: var(--apcs-text-bright);
+  background: var(--apcs-bg-elevated);
+}
+
+.apcs-tab-btn.active {
+  background: var(--apcs-cyan);
+  color: #04131f;
+  box-shadow: var(--apcs-shadow-glow);
+  font-weight: 700;
+}
+
+/* Top System Telemetry Strip */
+.apcs-telemetry-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.apcs-strip-card {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--apcs-shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.apcs-strip-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--strip-accent, var(--apcs-cyan));
+}
+
+.apcs-strip-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--apcs-text-dim);
+  margin-bottom: 0.25rem;
+}
+
+.apcs-strip-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--apcs-text-bright);
+  font-family: var(--apcs-font-mono);
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.apcs-strip-val small {
+  font-size: 0.8rem;
+  color: var(--apcs-text-muted);
+  font-weight: 500;
+}
+
+.apcs-strip-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--apcs-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--apcs-bg-card);
+  color: var(--strip-accent, var(--apcs-cyan));
+}
+
+/* Big Efficiency Gauge Card */
+.apcs-efficiency-hero {
+  background: linear-gradient(135deg, var(--apcs-bg-panel) 0%, var(--apcs-bg-card) 100%);
+  border: 1px solid var(--apcs-border-glow);
+  border-radius: var(--apcs-radius-lg);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  box-shadow: var(--apcs-shadow-md);
+}
+
+.apcs-efficiency-info {
+  max-width: 600px;
+}
+
+.apcs-efficiency-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--apcs-text-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.apcs-efficiency-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--apcs-text-muted);
+  line-height: 1.5;
+}
+
+.apcs-efficiency-stat {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.apcs-efficiency-number {
+  font-size: 3.25rem;
+  font-weight: 900;
+  font-family: var(--apcs-font-mono);
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: baseline;
+}
+
+.apcs-efficiency-number small {
+  font-size: 1.5rem;
+  margin-left: 0.25rem;
+  -webkit-text-fill-color: var(--apcs-cyan);
+}
+
+/* Process Flow Diagram Box */
+.apcs-flow-box {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--apcs-shadow-md);
+  margin-bottom: 1.5rem;
+}
+
+.apcs-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.apcs-section-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--apcs-text-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.apcs-section-subtitle {
+  font-size: 0.8rem;
+  color: var(--apcs-text-dim);
+}
+
+/* SVG Flow Diagram Styling */
+.apcs-flow-svg-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.apcs-flow-svg {
+  min-width: 960px;
+  max-width: 1200px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
+}
+
+.apcs-pipe-line {
+  stroke: var(--apcs-border);
+  stroke-width: 8;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.apcs-pipe-flow {
+  stroke: var(--apcs-cyan);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 12 16;
+  animation: apcsPipeFlowAnim 1.8s linear infinite;
+  fill: none;
+}
+
+@keyframes apcsPipeFlowAnim {
+  from {
+    stroke-dashoffset: 56;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.apcs-flow-node {
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.apcs-flow-node:hover {
+  filter: brightness(1.2) drop-shadow(0 0 12px var(--apcs-cyan-glow));
+}
+
+/* Sensor Grid */
+.apcs-sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.apcs-sensor-card {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--apcs-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.apcs-sensor-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--card-color, var(--apcs-cyan));
+  box-shadow: var(--apcs-shadow-md);
+}
+
+.apcs-sensor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.apcs-sensor-name-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.apcs-sensor-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--card-color, var(--apcs-cyan));
+  box-shadow: 0 0 8px var(--card-color, var(--apcs-cyan));
+}
+
+.apcs-sensor-symbol {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--apcs-text-bright);
+}
+
+.apcs-sensor-desc {
+  font-size: 0.72rem;
+  color: var(--apcs-text-dim);
+}
+
+.apcs-sensor-stage-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  background: var(--apcs-bg-card);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-full);
+  color: var(--apcs-text-muted);
+}
+
+.apcs-readings-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  background: var(--apcs-bg-card);
+  padding: 0.85rem 1rem;
+  border-radius: var(--apcs-radius-sm);
+  border: 1px solid var(--apcs-border);
+  margin-bottom: 0.85rem;
+}
+
+.apcs-reading-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.apcs-reading-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--apcs-text-dim);
+  margin-bottom: 0.2rem;
+}
+
+.apcs-reading-val {
+  font-family: var(--apcs-font-mono);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.apcs-reading-val.inlet {
+  color: var(--apcs-orange);
+}
+
+.apcs-reading-val.outlet {
+  color: var(--apcs-emerald);
+}
+
+.apcs-reading-unit {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--apcs-text-muted);
+  margin-left: 0.25rem;
+}
+
+/* Reduction Bar & Limits */
+.apcs-reduction-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.apcs-reduction-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--apcs-text-muted);
+  font-weight: 600;
+}
+
+.apcs-reduction-percent {
+  font-family: var(--apcs-font-mono);
+  font-weight: 800;
+  color: var(--apcs-emerald);
+}
+
+.apcs-progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--apcs-bg-card);
+  border-radius: var(--apcs-radius-full);
+  overflow: hidden;
+  border: 1px solid var(--apcs-border);
+  position: relative;
+}
+
+.apcs-progress-fill {
+  height: 100%;
+  border-radius: var(--apcs-radius-full);
+  background: linear-gradient(90deg, #10b981, #06b6d4);
+  transition: width 0.35s ease;
+}
+
+.apcs-limit-reference {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--apcs-text-dim);
+  margin-top: 0.4rem;
+}
+
+/* Equipment Diagnostic Panels */
+.apcs-equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.apcs-equipment-card {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--apcs-shadow-sm);
+}
+
+.apcs-equipment-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--apcs-border);
+}
+
+.apcs-equipment-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--apcs-text-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.apcs-badge-status {
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--apcs-radius-full);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.apcs-badge-status.active {
+  background: var(--apcs-emerald-glow);
+  color: var(--apcs-emerald);
+  border: 1px solid var(--apcs-emerald);
+}
+
+.apcs-badge-status.warning {
+  background: var(--apcs-amber-glow);
+  color: var(--apcs-amber);
+  border: 1px solid var(--apcs-amber);
+}
+
+.apcs-badge-status.critical {
+  background: var(--apcs-red-glow);
+  color: var(--apcs-red);
+  border: 1px solid var(--apcs-red);
+  animation: apcsPulseRed 1s infinite alternate;
+}
+
+@keyframes apcsPulseRed {
+  from {
+    box-shadow: 0 0 4px var(--apcs-red);
+  }
+  to {
+    box-shadow: 0 0 14px var(--apcs-red);
+  }
+}
+
+.apcs-param-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.apcs-param-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.apcs-param-name {
+  color: var(--apcs-text-muted);
+}
+
+.apcs-param-val {
+  font-family: var(--apcs-font-mono);
+  font-weight: 700;
+  color: var(--apcs-text-bright);
+}
+
+/* Control Console Panel */
+.apcs-control-console {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--apcs-shadow-md);
+  margin-bottom: 1.5rem;
+}
+
+.apcs-console-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.apcs-control-group {
+  background: var(--apcs-bg-card);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.apcs-control-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--apcs-cyan);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.apcs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--apcs-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.apcs-btn-primary {
+  background: var(--apcs-cyan);
+  color: #04131f;
+}
+
+.apcs-btn-primary:hover {
+  background: #22d3ee;
+  box-shadow: var(--apcs-shadow-glow);
+}
+
+.apcs-btn-outline {
+  background: transparent;
+  border-color: var(--apcs-border);
+  color: var(--apcs-text-main);
+}
+
+.apcs-btn-outline:hover {
+  background: var(--apcs-bg-elevated);
+  border-color: var(--apcs-text-muted);
+}
+
+.apcs-btn-danger {
+  background: var(--apcs-red);
+  color: #ffffff;
+}
+
+.apcs-btn-danger:hover {
+  background: #dc2626;
+  box-shadow: 0 0 16px var(--apcs-red-glow);
+}
+
+.apcs-btn-sm {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+/* Scenario Pills */
+.apcs-scenario-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.apcs-scenario-btn {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-radius: var(--apcs-radius-sm);
+  border: 1px solid var(--apcs-border);
+  background: var(--apcs-bg-panel);
+  color: var(--apcs-text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.apcs-scenario-btn:hover {
+  background: var(--apcs-bg-elevated);
+  border-color: var(--apcs-cyan);
+}
+
+.apcs-scenario-btn.active {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: var(--apcs-cyan);
+  color: var(--apcs-cyan);
+}
+
+.apcs-scenario-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.apcs-scenario-desc {
+  font-size: 0.72rem;
+  color: var(--apcs-text-dim);
+}
+
+/* Alarm Center Table */
+.apcs-alarm-panel {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--apcs-shadow-md);
+  margin-bottom: 1.5rem;
+}
+
+.apcs-alarm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+
+.apcs-alarm-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: var(--apcs-bg-card);
+  color: var(--apcs-text-dim);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--apcs-border);
+}
+
+.apcs-alarm-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--apcs-border);
+  color: var(--apcs-text-main);
+}
+
+.apcs-alarm-row.critical {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.apcs-alarm-row.warning {
+  background: rgba(245, 158, 11, 0.05);
+}
+
+/* Compliance Reports View */
+.apcs-report-card {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--apcs-shadow-md);
+}
+
+.apcs-report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--apcs-border);
+  margin-bottom: 1.5rem;
+}
+
+.apcs-report-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.apcs-report-kpi {
+  background: var(--apcs-bg-card);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-md);
+  padding: 1.25rem;
+}
+
+.apcs-report-kpi-title {
+  font-size: 0.75rem;
+  color: var(--apcs-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+}
+
+.apcs-report-kpi-val {
+  font-family: var(--apcs-font-mono);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--apcs-text-bright);
+}
+
+/* Architecture & Documentation Modal */
+.apcs-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.apcs-modal-content {
+  background: var(--apcs-bg-panel);
+  border: 1px solid var(--apcs-border);
+  border-radius: var(--apcs-radius-lg);
+  max-width: 900px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 2rem;
+  box-shadow: var(--apcs-shadow-lg);
+}
+
+/* System Boundary Callout */
+.apcs-boundary-callout {
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid var(--apcs-cyan);
+  border-left-width: 4px;
+  border-radius: var(--apcs-radius-sm);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--apcs-text-main);
+}
+
+.apcs-boundary-callout strong {
+  color: var(--apcs-cyan);
+}
+
+/* Chart Canvas / SVG Container */
+.apcs-chart-container {
+  width: 100%;
+  height: 320px;
+  position: relative;
+  margin-top: 1rem;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 768px) {
+  .apcs-container {
+    padding: 0.75rem 0.75rem 2rem 0.75rem;
+  }
+
+  .apcs-header {
+    padding: 1rem;
+  }
+
+  .apcs-brand-title {
+    font-size: 1.25rem;
+  }
+
+  .apcs-efficiency-stat {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .apcs-efficiency-number {
+    font-size: 2.5rem;
+  }
+
+  .apcs-sensor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .apcs-equipment-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.TrainGpsTracker" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/accent_cyan</item>
+        <item name="colorPrimaryVariant">@color/accent_lime</item>
+        <item name="colorOnPrimary">@color/bg_primary</item>
+        <item name="android:statusBarColor">@color/bg_surface</item>
+        <item name="android:navigationBarColor">@color/bg_primary</item>
+        <item name="android:windowBackground">@color/bg_primary</item>
+    </style>
+</resources>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Train GPS HUD</string>
+    <string name="hud_title">TRAIN GPS HUD</string>
+    <string name="hud_subtitle">SATELLITE GNSS COCKPIT</string>
+    <string name="offline_ready">OFFLINE READY</string>
+    <string name="km_h">KM / H</string>
+    <string name="start_trip">START TRIP</string>
+    <string name="stop_trip">STOP TRIP</string>
+    <string name="reset_trip">RESET</string>
+    <string name="export_csv">EXPORT CSV</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="altitude">Altitude</string>
+    <string name="distance">Distance</string>
+    <string name="max_speed">Max Speed</string>
+    <string name="avg_speed">Avg Speed</string>
+    <string name="duration">Duration</string>
+    <string name="toggle_map">SHOW TRACK MAP</string>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- OLED Dark Mode Palette -->
+    <color name="bg_primary">#06090F</color>
+    <color name="bg_surface">#0C121E</color>
+    <color name="bg_card">#121A2C</color>
+    <color name="border_dim">#1E2C45</color>
+    <color name="border_bright">#2D4165</color>
+
+    <!-- Neon HUD Accents -->
+    <color name="accent_cyan">#00F0FF</color>
+    <color name="accent_lime">#39FF14</color>
+    <color name="accent_amber">#F59E0B</color>
+    <color name="accent_red">#EF4444</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_muted">#64748B</color>
+</resources>

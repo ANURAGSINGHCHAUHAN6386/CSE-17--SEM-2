@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#070b12">
+  <meta name="description" content="Offline GPS speed and location tracker for trains with zero network dependency">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+  <link rel="apple-touch-icon" href="./icons/icon.svg">
+  <title>Train GPS HUD | Offline Speedometer & Tracker</title>
+  
+  <!-- Local Offline Leaflet CSS -->
+  <link rel="stylesheet" href="./lib/leaflet.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="logo-container">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+      </svg>
+      <div>
+        <h1 class="app-title">Train GPS HUD</h1>
+        <p class="hud-subtitle">SATELLITE GNSS COCKPIT</p>
+      </div>
+    </div>
+
+    <div class="header-status">
+      <!-- Offline / Airplane Mode Ready Indicator -->
+      <div class="offline-badge" id="offline-badge" title="Works 100% offline with zero internet">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="12" r="5"/>
+        </svg>
+        <span>OFFLINE READY</span>
+      </div>
+
+      <!-- Live GPS Satellite Signal Pill -->
+      <div class="gps-status-pill searching" id="gps-status-pill">
+        <div class="signal-bars">
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+        </div>
+        <span id="gps-status-text">ACQUIRING GNSS</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Simulator Mode Notification Bar -->
+  <div class="sim-notice-bar" id="sim-notice-bar">
+    <span>⚠️ SIMULATION MODE ACTIVE: Simulating high-speed express train (0 → 135 km/h)</span>
+    <button class="btn btn-danger" style="padding: 2px 8px; font-size: 0.7rem;" id="exit-sim-btn">Exit Demo</button>
+  </div>
+
+  <!-- Main Dashboard -->
+  <main class="dashboard-content">
+
+    <!-- Speedometer Cockpit Gauge -->
+    <section class="cockpit-gauge-card">
+      <svg class="speed-gauge-svg" viewBox="0 0 400 250">
+        <defs>
+          <linearGradient id="speedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00f0ff"/>
+            <stop offset="65%" stop-color="#39ff14"/>
+            <stop offset="85%" stop-color="#f59e0b"/>
+            <stop offset="100%" stop-color="#ef4444"/>
+          </linearGradient>
+        </defs>
+        <!-- Background Track -->
+        <path class="gauge-bg-arc" d="M 60 210 A 150 150 0 1 1 340 210"/>
+        <!-- Value Arc -->
+        <path class="gauge-value-arc" id="gauge-arc" d="M 60 210 A 150 150 0 1 1 340 210"/>
+      </svg>
+
+      <!-- Center Digital Speed HUD -->
+      <div class="gauge-center-hud">
+        <div class="speed-number" id="speed-display">0</div>
+        <div class="speed-unit">KM / H</div>
+        <div class="speed-subtext" id="speed-mps">0.0 m/s</div>
+      </div>
+
+      <!-- Quick Metrics below Gauge -->
+      <div class="gauge-stats-row">
+        <div class="gauge-stat-box">
+          <div class="stat-label">Distance</div>
+          <div class="stat-value lime" id="stat-distance">0.00 km</div>
+        </div>
+        <div class="gauge-stat-box">
+          <div class="stat-label">Max Speed</div>
+          <div class="stat-value amber" id="stat-max-speed">0 km/h</div>
+        </div>
+        <div class="gauge-stat-box">
+          <div class="stat-label">Avg Speed</div>
+          <div class="stat-value cyan" id="stat-avg-speed">0 km/h</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Telemetry Metrics Grid -->
+    <section class="metrics-grid">
+
+      <!-- Coordinates & Altitude Card -->
+      <div class="metric-card">
+        <div class="metric-card-header">
+          <div class="metric-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/>
+            </svg>
+            GPS Coordinates
+          </div>
+          <button class="btn btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;" id="copy-coords-btn" title="Copy Coordinates">Copy</button>
+        </div>
+
+        <div class="coord-display">
+          <div class="coord-row">
+            <span class="coord-name">Latitude</span>
+            <span class="coord-val" id="val-latitude">--.------°</span>
+          </div>
+          <div class="coord-row">
+            <span class="coord-name">Longitude</span>
+            <span class="coord-val" id="val-longitude">--.------°</span>
+          </div>
+          <div class="coord-row">
+            <span class="coord-name">Altitude</span>
+            <span class="coord-val" id="val-altitude">-- m</span>
+          </div>
+        </div>
+
+        <div class="accuracy-row">
+          <span>Satellite Precision:</span>
+          <span class="accuracy-badge warn" id="accuracy-badge">Waiting for fix...</span>
+        </div>
+      </div>
+
+      <!-- Compass & Heading Card -->
+      <div class="metric-card">
+        <div class="metric-card-header">
+          <div class="metric-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 19 21 12 17 5 21 12 2"/>
+            </svg>
+            Direction & Heading
+          </div>
+        </div>
+
+        <div class="compass-content">
+          <div class="compass-rose">
+            <span class="compass-cardinal n">N</span>
+            <span class="compass-cardinal e">E</span>
+            <span class="compass-cardinal s">S</span>
+            <span class="compass-cardinal w">W</span>
+            <div class="compass-needle" id="compass-needle"></div>
+          </div>
+
+          <div class="compass-info">
+            <div class="heading-degrees" id="heading-degrees">---°</div>
+            <div class="heading-cardinal-text" id="heading-cardinal">STATIONARY</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">True Track Bearing</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trip Duration & Status Card -->
+      <div class="metric-card">
+        <div class="metric-card-header">
+          <div class="metric-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Trip Telemetry
+          </div>
+        </div>
+
+        <div class="coord-display">
+          <div class="coord-row">
+            <span class="coord-name">Elapsed Time</span>
+            <span class="coord-val" id="val-trip-time">00:00:00</span>
+          </div>
+          <div class="coord-row">
+            <span class="coord-name">Recorded Fixes</span>
+            <span class="coord-val" id="val-trip-points">0 pts</span>
+          </div>
+          <div class="coord-row">
+            <span class="coord-name">Last GPS Fix</span>
+            <span class="coord-val" id="val-last-fix" style="font-size: 0.8rem;">--:--:--</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trip Action Controls -->
+    <section class="trip-controls-card">
+      <div class="trip-buttons-group">
+        <button class="btn btn-primary" id="btn-toggle-trip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span id="btn-toggle-trip-text">Start Trip Recording</span>
+        </button>
+        <button class="btn btn-secondary" id="btn-reset-trip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset Stats
+        </button>
+        <button class="btn btn-sim" id="btn-toggle-sim">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Test Demo Mode
+        </button>
+      </div>
+
+      <div class="trip-buttons-group">
+        <button class="btn btn-secondary" id="btn-export-csv" title="Export CSV for spreadsheet analysis">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="btn btn-secondary" id="btn-export-gpx" title="Export GPX for Google Earth / Strava">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 10c0 7-7 11-7 11s-7-4-7-11a7 7 0 0 1 14 0Z"/></svg>
+          Export GPX
+        </button>
+      </div>
+    </section>
+
+    <!-- Map & Track Section -->
+    <section class="map-section-card">
+      <div class="map-tabs-header">
+        <div class="map-tabs">
+          <button class="map-tab-btn active" id="tab-btn-map">Route Map (Offline Tiles)</button>
+          <button class="map-tab-btn" id="tab-btn-canvas">Offline Track Visualizer</button>
+        </div>
+        <button class="map-action-btn" id="btn-open-precache">
+          📥 Pre-Cache Map for Route
+        </button>
+      </div>
+
+      <div class="map-container-wrapper">
+        <!-- Pre-Cache Panel / Modal -->
+        <div class="tile-preloader-panel" id="preloader-panel">
+          <div class="preloader-title">Pre-Download Map Tiles for Offline Route</div>
+          <div class="preloader-desc">
+            Download map tiles for the visible area (zoom levels 8 to 13) into browser storage before boarding. The map will then load seamlessly in dead zones with zero cellular signal.
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-primary" id="btn-start-cache-tiles">Download Visible Area Tiles</button>
+            <button class="btn btn-secondary" id="btn-clear-cache-tiles">Clear Cached Tiles</button>
+            <button class="btn btn-secondary" id="btn-close-precache">Close</button>
+          </div>
+          <div class="progress-bar-bg" id="cache-progress-bar" style="display: none;">
+            <div class="progress-bar-fill" id="cache-progress-fill"></div>
+          </div>
+          <div id="cache-status-text" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;"></div>
+        </div>
+
+        <!-- Leaflet Map Container -->
+        <div id="leaflet-map"></div>
+
+        <!-- Canvas Breadcrumb Fallback Visualizer (100% works without any tiles) -->
+        <canvas id="track-canvas"></canvas>
+      </div>
+    </section>
+
+    <!-- Trip Points Log Table -->
+    <section class="trip-log-card">
+      <div class="metric-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+        Live GPS Telemetry Log
+      </div>
+      <div class="log-table-container">
+        <table class="log-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Speed</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Alt</th>
+              <th>Dist</th>
+              <th>Accuracy</th>
+            </tr>
+          </thead>
+          <tbody id="log-table-body">
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 16px;">
+                No GPS points recorded yet. Click "Start Trip Recording" to log path.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Local Leaflet & Application Scripts -->
+  <script src="./lib/leaflet.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="hudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#39ff14" />
+    </linearGradient>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#121b2d" />
+      <stop offset="100%" stop-color="#05080f" />
+    </radialGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" fill="url(#bgGrad)" stroke="#1a273e" stroke-width="6"/>
+
+  <!-- Gauge Arc Background -->
+  <path d="M 106 350 A 170 170 0 1 1 406 350" fill="none" stroke="#1b2a44" stroke-width="24" stroke-linecap="round"/>
+  <!-- Gauge Arc Value -->
+  <path d="M 106 350 A 170 170 0 1 1 370 180" fill="none" stroke="url(#hudGrad)" stroke-width="24" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Speedometer Center Ticks -->
+  <circle cx="256" cy="256" r="14" fill="#00f0ff" filter="url(#glow)"/>
+  <line x1="256" y1="256" x2="340" y2="190" stroke="#00f0ff" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Train Front Silhouette in bottom -->
+  <path d="M 186 360 L 326 360 L 316 430 L 196 430 Z" fill="#0c1524" stroke="#00f0ff" stroke-width="6"/>
+  <!-- Train Windshield -->
+  <path d="M 204 374 L 308 374 L 302 400 L 210 400 Z" fill="#13263d" stroke="#39ff14" stroke-width="3"/>
+  <!-- Train Headlights -->
+  <circle cx="216" cy="416" r="6" fill="#39ff14" filter="url(#glow)"/>
+  <circle cx="296" cy="416" r="6" fill="#39ff14" filter="url(#glow)"/>
+
+  <!-- Satellite Waves Top -->
+  <path d="M 216 110 A 50 50 0 0 1 296 110" fill="none" stroke="#39ff14" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 196 90 A 80 80 0 0 1 316 90" fill="none" stroke="#00f0ff" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="256" cy="130" r="8" fill="#39ff14"/>
+</svg>

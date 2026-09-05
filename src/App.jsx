@@ -2,8 +2,29 @@ import React, { useState, useEffect } from "react";
 import ShoppingHub from "./ShoppingHub";
 import LuxeStay from "./LuxeStay";
 import StudentHub from "./StudentHub";
+import AirPollutionControlSystem from "./components/apcs/AirPollutionControlSystem";
+import TrainGpsTracker from "./components/gps/TrainGpsTracker";
+import NeuroPulseStudio from "./components/neuropulse/NeuroPulseStudio";
+
+const BrainIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{ width: "20px", height: "20px" }}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+  </svg>
+);
+
+const TrainGpsIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{ width: "20px", height: "20px" }}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v8m-4-4h8" />
+  </svg>
+);
 
 // Premium SVGs for Shell layout
+const ApcsIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{ width: "20px", height: "20px" }}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+  </svg>
+);
 const OverviewIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{ width: "20px", height: "20px" }}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
@@ -49,7 +70,7 @@ const defaultStudents = [
 
 export default function App() {
   const [theme, setTheme] = useState(localStorage.getItem("nexus_theme") || "dark");
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("bci");
 
   // Sub-system States
   const [cart, setCart] = useState(() => {
@@ -130,6 +151,55 @@ export default function App() {
           <ul className="nav-links">
             <li>
               <button
+                className={`nav-item ${activeTab === "bci" ? "active" : ""}`}
+                onClick={() => setActiveTab("bci")}
+                style={{ background: "none", width: "100%" }}
+              >
+                <BrainIcon />
+                <span>NeuroPulse BCI</span>
+                <span style={{ 
+                  marginLeft: "auto", backgroundColor: "#a855f7", 
+                  color: "#ffffff", borderRadius: "50%", padding: "2px 6px", fontSize: "0.68rem", fontWeight: "800",
+                  boxShadow: "0 0 10px #a855f7" 
+                }}>
+                  NEURAL
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                className={`nav-item ${activeTab === "gps" ? "active" : ""}`}
+                onClick={() => setActiveTab("gps")}
+                style={{ background: "none", width: "100%" }}
+              >
+                <TrainGpsIcon />
+                <span>Train GPS Tracker</span>
+                <span style={{ 
+                  marginLeft: "auto", backgroundColor: "#00f0ff", 
+                  color: "#04131f", borderRadius: "50%", padding: "2px 6px", fontSize: "0.68rem", fontWeight: "800" 
+                }}>
+                  OFFLINE
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                className={`nav-item ${activeTab === "apcs" ? "active" : ""}`}
+                onClick={() => setActiveTab("apcs")}
+                style={{ background: "none", width: "100%" }}
+              >
+                <ApcsIcon />
+                <span>APCS Flue Control</span>
+                <span style={{ 
+                  marginLeft: "auto", backgroundColor: "#06b6d4", 
+                  color: "#04131f", borderRadius: "50%", padding: "2px 6px", fontSize: "0.68rem", fontWeight: "800" 
+                }}>
+                  LIVE
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
                 className={`nav-item ${activeTab === "overview" ? "active" : ""}`}
                 onClick={() => setActiveTab("overview")}
                 style={{ background: "none", width: "100%" }}
@@ -208,7 +278,7 @@ export default function App() {
         <header className="viewport-header">
           <div className="header-title-area">
             <h2 style={{ textTransform: "capitalize" }}>
-              {activeTab === "stay" ? "Luxe Stay Room Booking" : activeTab === "academy" ? "Academy Hub" : activeTab + " Portal"}
+              {activeTab === "bci" ? "NeuroPulse BCI Neural Signal Decoding Cockpit" : activeTab === "gps" ? "Train Offline GPS Speedometer & Tracker" : activeTab === "apcs" ? "Air Pollution Control System (APCS)" : activeTab === "stay" ? "Luxe Stay Room Booking" : activeTab === "academy" ? "Academy Hub" : activeTab + " Portal"}
             </h2>
           </div>
 
@@ -219,7 +289,14 @@ export default function App() {
         </header>
 
         {/* Content Render Area */}
-        <section className="content-body">
+        <section className="content-body" style={activeTab === "apcs" || activeTab === "gps" || activeTab === "bci" ? { padding: 0 } : {}}>
+          {activeTab === "bci" && <NeuroPulseStudio />}
+          {activeTab === "gps" && <TrainGpsTracker />}
+
+          {activeTab === "apcs" && (
+            <AirPollutionControlSystem currentTheme={theme} onToggleTheme={toggleTheme} />
+          )}
+
           {activeTab === "overview" && (
             <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
               
@@ -235,6 +312,16 @@ export default function App() {
               {/* Stats Counters Grid */}
               <div className="overview-stats">
                 
+                <div className="stat-card" onClick={() => setActiveTab("apcs")} style={{ cursor: "pointer", border: "1px solid var(--apcs-border-glow, #06b6d4)" }}>
+                  <div className="stat-icon-container" style={{ backgroundColor: "rgba(6, 182, 212, 0.15)", color: "#06b6d4" }}>
+                    <ApcsIcon />
+                  </div>
+                  <div className="stat-details">
+                    <span className="stat-value" style={{ color: "#06b6d4" }}>96.4% Abatement</span>
+                    <span className="stat-label">Air Pollution Control (APCS)</span>
+                  </div>
+                </div>
+
                 <div className="stat-card" onClick={() => setActiveTab("shopping")} style={{ cursor: "pointer" }}>
                   <div className="stat-icon-container purple">
                     <ShoppingIcon />

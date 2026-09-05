@@ -1,0 +1,19 @@
+{
+  "name": "Train GPS HUD - Offline Speed & Location Tracker",
+  "short_name": "Train GPS",
+  "description": "Zero-network satellite GPS speedometer, location tracker, and offline route recorder for trains and transit.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070b12",
+  "theme_color": "#00f0ff",
+  "orientation": "any",
+  "categories": ["navigation", "utilities", "travel"],
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
